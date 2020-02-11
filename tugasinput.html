@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Input Data</title>
+    <style>
+        tr,td,table,th{
+                border: 1px solid black;
+                border-collapse: collapse;
+                padding: 10px;
+        }
+        div{
+            text-align: left ;
+            width:300px;
+            height:270px;
+            border:1px solid black;
+            padding: 10px;
+            }
+    </style>
+</head>
+<body>
+    <center>
+        <div>
+            <center>
+                <h1>Input Data</h1>
+            </center>
+            Nama&emsp;&nbsp;&nbsp;&nbsp;:&nbsp;<input type="text" placeholder="masukkan nama" id="inputnama"><br><br>
+            Usia&emsp;&emsp;&nbsp;:&nbsp;<input type="text" placeholder="masukkan usia" id="inputusia"><br><br>
+            Gender&emsp;&nbsp;:&nbsp;<input type="radio" name="gender" value="Pria" >Pria &nbsp;
+                    <input type="radio" name="gender" value="Wanita" >Wanita<br><br>
+            Pekerjaan :&nbsp;<input type="text" placeholder="masukkan nama" id="inputpekerjaan"><br><br>
+            <button onclick="tambahdata()">Submit</button>
+        </div><br><br>
+        <button onclick="sortnama()">Nama</button>&nbsp;
+        <button onclick="sortusia()">Usia</button>&nbsp;
+        <button onclick="sortgender()">Gender</button>&nbsp;
+        <button onclick="sortpekerjaan()">Pekerjaan</button><br><br>
+        <table>
+            <thead>
+                <tr>
+                    <th>No</th>
+                    <th>Nama</th>
+                    <th>Usia</th>
+                    <th>Gender</th>
+                    <th>Pekerjaan</th>
+                </tr>
+            </thead>
+            <tbody id="dataorang">
+
+            </tbody>
+        </table>
+    </center>
+</body>
+<script>
+    class Orang{
+        constructor(nama,usia,gender,pekerjaan){
+            this.nama=nama
+            this.usia=usia
+            this.gender=gender
+            this.pekerjaan=pekerjaan
+        }
+    }
+
+    var orang=[
+        new Orang('Irzza',26,'Pria','Pelajar'),
+        new Orang('Aldo',23,'Pria','Dokter'),
+        new Orang('Rizki',25,'Pria','Gamer'),
+        new Orang('Sofia',22,'Wanita','Asisten'),
+        new Orang('Putri',28,'Pria','Guru'),
+        new Orang('Sely',23,'Wanita','Perawat')
+    ]
+
+    const printdata=(array)=>{
+    var output=''
+    array.forEach((val,index)=>{
+        output+=`<tr>
+                    <td>${index+1}</td>
+                    <td>${val.nama}</td>        
+                    <td>${val.usia}</td>
+                    <td>${val.gender}</td>
+                    <td>${val.pekerjaan}</td>
+                </tr>`
+    })
+    document.getElementById('dataorang').innerHTML=output
+    }
+    printdata(orang)
+    
+    const tambahdata=()=>{
+        var inputnama=document.getElementById('inputnama').value
+        var inputusia=document.getElementById('inputusia').value
+        var inputgender=document.getElementsByName('gender')[0].checked?inputgender='Pria':inputgender='Wanita'
+        var inputpekerjaan=document.getElementById('inputpekerjaan').value
+        orang.push(new Orang(inputnama,inputusia,inputgender,inputpekerjaan))
+        printdata(orang)
+    }
+
+    const sortusia=()=>{
+        var sortusia=orang.sort(function(a, b){
+            return a.usia-b.usia
+        })
+    printdata(sortusia)
+    }
+
+    const sortnama=()=>{
+        var sortnama=orang.sort(function(a, b){
+            var namaA=a.nama.toLowerCase(), namaB=b.nama.toLowerCase()
+            if (namaA < namaB) //sort string ascending
+                return -1 
+            if (namaA > namaB)
+                return 1
+            return 0 //default return value (no sorting)
+        })
+    printdata(sortnama)
+    }
+
+    const sortgender=()=>{
+        var sortgender=orang.sort(function(a, b){
+        var genderA=a.gender.toLowerCase(), genderB=b.gender.toLowerCase()
+            if (genderA < genderB) //sort string ascending
+                return -1 
+            if (genderA > genderB)
+                return 1
+            return 0 //default return value (no sorting)
+        })
+    printdata(sortgender)
+    }
+
+    const sortpekerjaan=()=>{
+        var sortpekerjaan=orang.sort(function(a, b){
+        var pekerjaanA=a.pekerjaan.toLowerCase(), pekerjaanB=b.pekerjaan.toLowerCase()
+            if (pekerjaanA < pekerjaanB) //sort string ascending
+                return -1 
+            if (pekerjaanA > pekerjaanB)
+                return 1
+            return 0 //default return value (no sorting)
+        })
+    printdata(sortpekerjaan)
+    }
+</script>
+</html>
